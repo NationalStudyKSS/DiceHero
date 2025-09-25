@@ -1,12 +1,12 @@
-using TMPro;
+ï»¿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CombatCharacterView : MonoBehaviour
 {
-    [Header("ÄÄÆ÷³ÍÆ® ÂüÁ¶")]
-    [SerializeField] TextMeshProUGUI _hpText; // Ã¼·Â ÅØ½ºÆ® ÄÄÆ÷³ÍÆ®
-    [SerializeField] Image _hpBar; // Ã¼·Â ¹Ù ÀÌ¹ÌÁö ÄÄÆ÷³ÍÆ®
+    [Header("ì»´í¬ë„ŒíŠ¸ ì°¸ì¡°")]
+    [SerializeField] TextMeshProUGUI _hpText; // ì²´ë ¥ í…ìŠ¤íŠ¸ ì»´í¬ë„ŒíŠ¸
+    [SerializeField] Image _hpBar; // ì²´ë ¥ ë°” ì´ë¯¸ì§€ ì»´í¬ë„ŒíŠ¸
 
     public void Initialize()
     {

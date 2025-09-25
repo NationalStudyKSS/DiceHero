@@ -1,21 +1,21 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Ä«¸Ş¶ó°¡ ¸ñÇ¥¸¦ µû¶ó¼­ ¿òÁ÷ÀÌµµ·Ï ÇÏ´Â Å¬·¡½º
+/// ì¹´ë©”ë¼ê°€ ëª©í‘œë¥¼ ë”°ë¼ì„œ ì›€ì§ì´ë„ë¡ í•˜ëŠ” í´ë˜ìŠ¤
 /// </summary>
 public class CameraMover : MonoBehaviour
 {
-    [SerializeField] Transform _target; // Ä«¸Ş¶ó°¡ µû¶ó°¥ ¸ñÇ¥
-    [SerializeField] Vector3 _offset; // Ä«¸Ş¶óÀÇ ¿ÀÇÁ¼Â À§Ä¡
-    [SerializeField] Vector3 _targetOffset; // ¸ñÇ¥ÀÇ ¿ÀÇÁ¼Â À§Ä¡
+    [SerializeField] Transform _target; // ì¹´ë©”ë¼ê°€ ë”°ë¼ê°ˆ ëª©í‘œ
+    [SerializeField] Vector3 _offset; // ì¹´ë©”ë¼ì˜ ì˜¤í”„ì…‹ ìœ„ì¹˜
+    [SerializeField] Vector3 _targetOffset; // ëª©í‘œì˜ ì˜¤í”„ì…‹ ìœ„ì¹˜
 
     private void Update()
     {
         if (_target != null)
         {
-            // Ä«¸Ş¶óÀÇ À§Ä¡¸¦ ¸ñÇ¥ÀÇ À§Ä¡·Î ¼³Á¤
+            // ì¹´ë©”ë¼ì˜ ìœ„ì¹˜ë¥¼ ëª©í‘œì˜ ìœ„ì¹˜ë¡œ ì„¤ì •
             transform.position = _target.position + _offset - _targetOffset;
         }
     }

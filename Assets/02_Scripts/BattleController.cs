@@ -1,21 +1,21 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 
 /// <summary>
-/// Àû°úÀÇ ÀüÅõ¸¦ °ü¸®ÇÏ´Â Å¬·¡½º
+/// ì ê³¼ì˜ ì „íˆ¬ë¥¼ ê´€ë¦¬í•˜ëŠ” í´ë˜ìŠ¤
 /// </summary>
 public class BattleController : MonoBehaviour
 {
-    [Header("ÄÄÆ÷³ÍÆ® ÂüÁ¶")]
-    [SerializeField] DiceController _diceController; // ÁÖ»çÀ§ ÄÁÆ®·Ñ·¯
-    [SerializeField] TextMeshProUGUI[] _enemyEncounterTexts; // Àû Á¶¿ì ÅØ½ºÆ®µé
-    [SerializeField] GameObject _diceControllerPanel; // ÁÖ»çÀ§ ÄÁÆ®·Ñ·¯ ÆĞ³Î
-    [SerializeField] TextMeshProUGUI _damageText; // µ¥¹ÌÁö ÅØ½ºÆ®
+    [Header("ì»´í¬ë„ŒíŠ¸ ì°¸ì¡°")]
+    [SerializeField] DiceController _diceController; // ì£¼ì‚¬ìœ„ ì»¨íŠ¸ë¡¤ëŸ¬
+    [SerializeField] TextMeshProUGUI[] _enemyEncounterTexts; // ì  ì¡°ìš° í…ìŠ¤íŠ¸ë“¤
+    [SerializeField] GameObject _diceControllerPanel; // ì£¼ì‚¬ìœ„ ì»¨íŠ¸ë¡¤ëŸ¬ íŒ¨ë„
+    [SerializeField] TextMeshProUGUI _damageText; // ë°ë¯¸ì§€ í…ìŠ¤íŠ¸
 
     [Header("Settings")]
-    [SerializeField] float _textDisplayDuration = 0.5f; // °¢ ÅØ½ºÆ®°¡ Ç¥½ÃµÇ´Â ½Ã°£
+    [SerializeField] float _textDisplayDuration = 0.5f; // ê° í…ìŠ¤íŠ¸ê°€ í‘œì‹œë˜ëŠ” ì‹œê°„
 
     Hero _hero;
     Enemy _targetEnemy;
@@ -23,7 +23,7 @@ public class BattleController : MonoBehaviour
 
     Coroutine _hitAndTakeDamageRoutine;
 
-    public event Action OnBattleEnded; // ÀüÅõ°¡ Á¾·áµÇ¾úÀ» ¶§ ¹ß»ıÇÏ´Â ÀÌº¥Æ®
+    public event Action OnBattleEnded; // ì „íˆ¬ê°€ ì¢…ë£Œë˜ì—ˆì„ ë•Œ ë°œìƒí•˜ëŠ” ì´ë²¤íŠ¸
 
     public void Initialize()
     {
@@ -31,13 +31,13 @@ public class BattleController : MonoBehaviour
     }
 
     /// <summary>
-    /// Àû Á¶¿ì ½Ã È£ÃâµÇ´Â ÀüÅõ½ÃÀÛ ÇÔ¼ö
-    /// _targetEnemy¿¡ Àû Á¤º¸ ÀúÀå ÈÄ ÀüÅõ ½ÃÀÛ
+    /// ì  ì¡°ìš° ì‹œ í˜¸ì¶œë˜ëŠ” ì „íˆ¬ì‹œì‘ í•¨ìˆ˜
+    /// _targetEnemyì— ì  ì •ë³´ ì €ì¥ í›„ ì „íˆ¬ ì‹œì‘
     /// </summary>
-    /// <param name="enemy">Á¶¿ìÇÑ Àû</param>
+    /// <param name="enemy">ì¡°ìš°í•œ ì </param>
     public void StartBattle(Hero hero, Enemy enemy)
     {
-        // ÀÌÀü Enemy ÀÌº¥Æ® ÇØÁ¦
+        // ì´ì „ Enemy ì´ë²¤íŠ¸ í•´ì œ
         if (_prevEnemy != null && _prevEnemy.EnemyModel != null)
             _prevEnemy.EnemyModel.OnDead -= EndBattle;
 
@@ -47,53 +47,53 @@ public class BattleController : MonoBehaviour
         _hero = hero;
         _targetEnemy = enemy;
 
-        // »õ Àû ÀÌº¥Æ® ±¸µ¶
+        // ìƒˆ ì  ì´ë²¤íŠ¸ êµ¬ë…
         _targetEnemy.EnemyModel.OnDead += EndBattle;
 
-        // Àû ÂüÁ¶ °»½Å
+        // ì  ì°¸ì¡° ê°±ì‹ 
         _prevEnemy = _targetEnemy;
 
-        Debug.Log($"Àû {enemy.name}°ú ÀüÅõ ½ÃÀÛ!");
+        Debug.Log($"ì  {enemy.name}ê³¼ ì „íˆ¬ ì‹œì‘!");
         StartCoroutine(EnemyEncounterTextRoutine());
     }
 
     /// <summary>
-    /// ÀûÀ» Á¶¿ìÇßÀ» ¶§ ÅØ½ºÆ®¸¦ ¼øÂ÷ÀûÀ¸·Î º¸¿©ÁÖ´Â ÄÚ·çÆ¾
+    /// ì ì„ ì¡°ìš°í–ˆì„ ë•Œ í…ìŠ¤íŠ¸ë¥¼ ìˆœì°¨ì ìœ¼ë¡œ ë³´ì—¬ì£¼ëŠ” ì½”ë£¨í‹´
     /// </summary>
     /// <returns></returns>
     IEnumerator EnemyEncounterTextRoutine()
     {
-        // 4°³ÀÇ ÅØ½ºÆ®°¡ ¼øÂ÷ÀûÀ¸·Î ³ªÅ¸³µ´Ù »ç¶óÁö´Â È¿°ú
+        // 4ê°œì˜ í…ìŠ¤íŠ¸ê°€ ìˆœì°¨ì ìœ¼ë¡œ ë‚˜íƒ€ë‚¬ë‹¤ ì‚¬ë¼ì§€ëŠ” íš¨ê³¼
         foreach (var text in _enemyEncounterTexts)
         {
             text.gameObject.SetActive(true);
             yield return new WaitForSeconds(_textDisplayDuration);
         }
 
-        // ¸ğµç ÅØ½ºÆ®°¡ Ç¥½ÃµÈ ÈÄ Àá½Ã ´ë±â
+        // ëª¨ë“  í…ìŠ¤íŠ¸ê°€ í‘œì‹œëœ í›„ ì ì‹œ ëŒ€ê¸°
         yield return new WaitForSeconds(1.0f);
 
-        // ÅØ½ºÆ®µéÀ» ¸ğµÎ ºñÈ°¼ºÈ­
+        // í…ìŠ¤íŠ¸ë“¤ì„ ëª¨ë‘ ë¹„í™œì„±í™”
         foreach (var text in _enemyEncounterTexts)
         {
             text.gameObject.SetActive(false);
         }
 
-        // Àû Á¶¿ì ÅØ½ºÆ®°¡ ¸ğµÎ »ç¶óÁø ÈÄ ÁÖ»çÀ§ ÄÁÆ®·Ñ·¯ ÆĞ³Î È°¼ºÈ­
+        // ì  ì¡°ìš° í…ìŠ¤íŠ¸ê°€ ëª¨ë‘ ì‚¬ë¼ì§„ í›„ ì£¼ì‚¬ìœ„ ì»¨íŠ¸ë¡¤ëŸ¬ íŒ¨ë„ í™œì„±í™”
         _diceControllerPanel.SetActive(true);
         _damageText.gameObject.SetActive(true);
     }
 
     /// <summary>
-    /// ÁÖ»çÀ§¸¦ ±¼·ÈÀ» ¶§ È£ÃâµÇ´Â ÇÔ¼ö
+    /// ì£¼ì‚¬ìœ„ë¥¼ êµ´ë ¸ì„ ë•Œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜
     /// </summary>
-    /// <param name="resultValue">ÁÖ»çÀ§ °ª</param>
+    /// <param name="resultValue">ì£¼ì‚¬ìœ„ ê°’</param>
     public void DiceRolled(int resultValue)
     {
-        // ÁÖ»çÀ§¸¦ Áßº¹À¸·Î ±¼¸®´Â °ÍÀ» ¹æÁöÇÏ±â À§ÇØ °ø°İ Áß¿¡´Â ÁÖ»çÀ§ ÆĞ³Î ºñÈ°¼ºÈ­
+        // ì£¼ì‚¬ìœ„ë¥¼ ì¤‘ë³µìœ¼ë¡œ êµ´ë¦¬ëŠ” ê²ƒì„ ë°©ì§€í•˜ê¸° ìœ„í•´ ê³µê²© ì¤‘ì—ëŠ” ì£¼ì‚¬ìœ„ íŒ¨ë„ ë¹„í™œì„±í™”
         _diceControllerPanel.SetActive(false);
 
-        Debug.Log($"Àû {_targetEnemy.name}¿¡°Ô {resultValue}ÀÇ ÇÇÇØ¸¦ ÀÔÇû½À´Ï´Ù.");
+        Debug.Log($"ì  {_targetEnemy.name}ì—ê²Œ {resultValue}ì˜ í”¼í•´ë¥¼ ì…í˜”ìŠµë‹ˆë‹¤.");
         
         UpdateDamageText(resultValue);
 
@@ -105,19 +105,19 @@ public class BattleController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         _targetEnemy.TakeDamage(damageToEnemy);
 
-        // ÀûÀÌ »ç¸ÁÇßÀ¸¸é ÇÃ·¹ÀÌ¾î°¡ ÇÇÇØ¸¦ ÀÔÁö ¾ÊÀ½
+        // ì ì´ ì‚¬ë§í–ˆìœ¼ë©´ í”Œë ˆì´ì–´ê°€ í”¼í•´ë¥¼ ì…ì§€ ì•ŠìŒ
         if (_targetEnemy == null) yield break;
 
         yield return new WaitForSeconds(0.5f);
         _hero.TakeDamage(damageToPlayer);
 
-        // ÀüÅõ°¡ ³¡³ªÁö ¾Ê¾Ò´Ù¸é ´Ù½Ã ÁÖ»çÀ§ ÆĞ³Î È°¼ºÈ­
+        // ì „íˆ¬ê°€ ëë‚˜ì§€ ì•Šì•˜ë‹¤ë©´ ë‹¤ì‹œ ì£¼ì‚¬ìœ„ íŒ¨ë„ í™œì„±í™”
         if (_targetEnemy != null)
             _diceControllerPanel.SetActive(true);
     }
 
     /// <summary>
-    /// ÀüÅõ°¡ Á¾·áµÇ¾úÀ» ¶§ È£ÃâµÇ´Â ÇÔ¼ö
+    /// ì „íˆ¬ê°€ ì¢…ë£Œë˜ì—ˆì„ ë•Œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜
     /// </summary>
     public void EndBattle()
     {
@@ -125,11 +125,11 @@ public class BattleController : MonoBehaviour
         _diceControllerPanel.SetActive(false);
         _damageText.gameObject.SetActive(false);
 
-        Debug.Log($"Àû {_targetEnemy.name}°úÀÇ ÀüÅõ°¡ Á¾·áµÇ¾ú½À´Ï´Ù.");
+        Debug.Log($"ì  {_targetEnemy.name}ê³¼ì˜ ì „íˆ¬ê°€ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 
         StopAllCoroutines();
         _targetEnemy = null;
-        // _prevEnemy´Â ´ÙÀ½ ÀüÅõ ½ÃÀÛ¿¡¼­ ÇØÁ¦
+        // _prevEnemyëŠ” ë‹¤ìŒ ì „íˆ¬ ì‹œì‘ì—ì„œ í•´ì œ
         OnBattleEnded?.Invoke();
     }
 
@@ -137,7 +137,7 @@ public class BattleController : MonoBehaviour
     {
         if (_targetEnemy != null)
         {
-            _damageText.text = $"ÀÌ¹ø °ø°İ µ¥¹ÌÁö : {diceValue}";
+            _damageText.text = $"ì´ë²ˆ ê³µê²© ë°ë¯¸ì§€ : {diceValue}";
         }
     }
 }
